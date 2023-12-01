@@ -1,6 +1,6 @@
 <?php
 
-$input = array_map(function ($input) {
+$input = array_reduce(explode("\n", file_get_contents(__DIR__ . '/input.txt')), function ($input, $carry) {
     $results = preg_replace("/[^0-9]/", "", $input);
     $length = strlen($results);
 
@@ -11,8 +11,8 @@ $input = array_map(function ($input) {
     $firstNumber = substr($results, 0, 1);
     $lastNumber = substr($results, -1, 1);
 
-    return intval($firstNumber . '' . $lastNumber);
-}, explode("\n", file_get_contents(__DIR__ . '/input.txt')));
+    return intval($firstNumber . '' . $lastNumber) + $carry;
+}, 0);
 
 
-var_dump(array_sum($input));
+var_dump($input);
