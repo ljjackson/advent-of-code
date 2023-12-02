@@ -6,7 +6,9 @@ const MAX_RED = 12;
 
 function solutionOne(string $input): int
 {
-    return array_reduce(explode(PHP_EOL, $input), function (int $carry, string $gameInput) {
+    $maximumColourMap = ['red' => MAX_RED, 'blue' => MAX_BLUE, 'green' => MAX_GREEN];
+
+    return array_reduce(explode(PHP_EOL, $input), function (int $carry, string $gameInput) use ($maximumColourMap) {
         $numbers = preg_split('/([:;,])/', $gameInput);
 
         // Determine the game number
@@ -18,11 +20,7 @@ function solutionOne(string $input): int
             $amount = intval($input[0]);
             $colour = $input[1];
 
-            $impossibleGame = ($amount > MAX_RED && $colour === 'red')
-                || ($amount > MAX_GREEN && $colour === 'green')
-                || ($amount > MAX_BLUE && $colour === 'blue');
-
-            if ($impossibleGame) {
+            if ($amount > $maximumColourMap[$colour]) {
                 return $carry;
             }
         }
