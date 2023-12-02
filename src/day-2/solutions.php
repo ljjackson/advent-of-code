@@ -33,3 +33,24 @@ function solutionOne(string $input): int
 
 
 var_dump(solutionOne(file_get_contents(__DIR__ . '/input.txt')));
+
+
+function solutionTwo(string $input): int
+{
+    return array_reduce(explode(PHP_EOL, $input), function (int $carry, string $gameInput) {
+        $numbers = preg_split('/([:;,])/', $gameInput);
+        unset($numbers[0]);
+
+        $results = [];
+
+        foreach ($numbers as $roundInput) {
+            $input = explode(' ', ltrim($roundInput));
+            $colour = $input[1];
+            $results[$colour] = max($results[$colour] ?? 0, intval($input[0]));
+        }
+
+        return $carry + array_product($results);
+    }, 0);
+}
+
+var_dump(solutionTwo(file_get_contents(__DIR__ . '/input.txt')));
