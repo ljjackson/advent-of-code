@@ -113,7 +113,6 @@ function solutionTwo(string $input): int
                 $numbers = [];
 
                 foreach ($box as $index => $options) {
-                    $index = $currentLine;
                     $searchBackwardsNumber = '';
                     $searchForwardNumber = '';
 
@@ -180,5 +179,3 @@ function hasMultipleNumbersInSurroundingBox(array $values): bool
 
     return $total > 1;
 }
-
-var_dump(solutionTwo(file_get_contents(__DIR__ . '/input.txt')));
