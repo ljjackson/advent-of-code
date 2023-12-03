@@ -68,7 +68,6 @@ function containsSymbol(string $input): bool
     return strlen(preg_replace('/[0-9|.]/', '', $input)) > 0;
 }
 
-
 function solutionTwo(string $input): int
 {
     $engine = explode(PHP_EOL, $input);
@@ -92,40 +91,29 @@ function solutionTwo(string $input): int
             // |TFF|
             // |FFF|
             // |FFF|
-            $box = [
-                'top' => ($currentLine - 1) < 0 ? [false, false, false] : [
+            $box = array_filter([
+                $currentLine - 1 => ($currentLine - 1) < 0 ? null : [
                     ! $startingOnFirstLine && is_numeric($engine[$currentLine - 1][$currentLetter - 1]),
                     is_numeric($engine[$currentLine - 1][$currentLetter]),
                     ! $isStartingOnLastLine && is_numeric($engine[$currentLine - 1][$currentLetter + 1])
                 ],
-                'middle' => [
+                $currentLine => [
                     ! $startingOnFirstLine && is_numeric($engine[$currentLine][$currentLetter - 1]),
                     false,
                     ! $isStartingOnLastLine && is_numeric($engine[$currentLine][$currentLetter + 1])
                 ],
-                'bottom' => $currentLine === ($totalLines - 1) ? [false, false, false] : [
+                $currentLine + 1 => $currentLine + 1 === $totalLines ? null : [
                     ! ($startingOnFirstLine) && is_numeric($engine[$currentLine + 1][$currentLetter - 1]),
                     is_numeric($engine[$currentLine + 1][$currentLetter]),
                     ! $isStartingOnLastLine && is_numeric($engine[$currentLine + 1][$currentLetter + 1])
-                ],
-            ];
+                ]
+            ]);
 
             if (hasMultipleNumbersInSurroundingBox($box)) {
                 $numbers = [];
 
-                foreach ($box as $area => $options) {
-                    if (($area === 'top' && ($currentLine - 1) < 0) || ($area === 'bottom' && $currentLine === ($totalLines - 1))) {
-                        continue;
-                    }
-
+                foreach ($box as $index => $options) {
                     $index = $currentLine;
-                    if ($area === 'top') {
-                        $index = $currentLine - 1;
-                    }
-                    if ($area === 'bottom') {
-                        $index = $currentLine + 1;
-                    }
-
                     $searchBackwardsNumber = '';
                     $searchForwardNumber = '';
 
@@ -177,40 +165,20 @@ function solutionTwo(string $input): int
     return array_sum($gearProducts);
 }
 
-
 function hasMultipleNumbersInSurroundingBox(array $values): bool
 {
     $total = 0;
 
-    if (count(array_filter($values['top'])) > 0) {
-        $total += 1;
+    foreach ($values as $plot) {
+        if ($plot[0] && ! $plot[1] && $plot[2]) {
+            return true;
+        }
+        if (count(array_filter($plot)) > 0) {
+            $total++;
+        }
     }
 
-    if (count(array_filter($values['middle'])) > 0) {
-        $total += 1;
-    }
-
-    if (count(array_filter($values['bottom'])) > 0) {
-        $total += 1;
-    }
-
-    if ($total > 1) {
-        return true;
-    }
-
-    if ($values['top'][0] && ! $values['top'][1] && $values['top'][2]) {
-        return true;
-    }
-
-    if ($values['middle'][0] && ! $values['middle'][1] && $values['middle'][2]) {
-        return true;
-    }
-
-    if ($values['bottom'][0] && ! $values['bottom'][1] && $values['bottom'][2]) {
-        return true;
-    }
-
-    return false;
+    return $total > 1;
 }
 
 var_dump(solutionTwo(file_get_contents(__DIR__ . '/input.txt')));
