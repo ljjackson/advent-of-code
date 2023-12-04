@@ -2,7 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 
-require __DIR__ . '/../src/day-1/solution.php';
+require __DIR__ . '/../src/day-1.php';
 
 class Day1Test extends TestCase
 {

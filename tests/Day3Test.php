@@ -1,6 +1,6 @@
 <?php
 
-require  __DIR__ . '/../src/day-3/solutions.php';
+require  __DIR__ . '/../src/day-3.php';
 
 class Day3Test extends \PHPUnit\Framework\TestCase
 {
