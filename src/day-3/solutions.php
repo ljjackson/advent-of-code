@@ -40,9 +40,7 @@ function solutionTwo(string $input): int
 
 
         if ($isThirdIteration) {
-            $groups = array_map('str_split', $group);
-            $common = array_intersect(...$groups);
-            $letters = array_values(array_unique(array_intersect(...$groups)));
+            $letters = array_values(array_unique(array_intersect(...array_map('str_split', $group))));
 
             if ($letters[0]) {
                 $sum += ($dict[$letters[0]] + 1);
