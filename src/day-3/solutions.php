@@ -1,7 +1,7 @@
 <?php
 
 
-function solutionOne(string $input)
+function solutionOne(string $input): int
 {
     $dict = array_flip(array_merge(range('a', 'z'), range('A', 'Z')));
     $inputs = explode(PHP_EOL, $input);
