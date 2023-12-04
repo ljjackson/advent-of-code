@@ -16,5 +16,16 @@ class Day4Test extends TestCase
         $this->assertSame(21558, solutionOne(file_get_contents(__DIR__ . '/../src/day-4/actual.txt')));
     }
 
+    public function test_it_will_correctly_get_the_winning_number_count()
+    {
+        $this->assertSame(0, findWinningNumbers("Card 5: 87 83 26 28 32 | 88 30 70 12 93 22 82 36"));
+        $this->assertSame(2, findWinningNumbers("Card 2: 13 32 20 16 61 | 61 30 68 82 17 32 24 19"));
+    }
+
+    public function test_solution_2_against_differed_input()
+    {
+        $this->assertSame(30, solutionTwo(file_get_contents(__DIR__ . '/../src/day-4/solution2_test.txt')));
+        $this->assertSame(10425665, solutionTwo(file_get_contents(__DIR__ . '/../src/day-4/actual.txt')));
+    }
 
 }
