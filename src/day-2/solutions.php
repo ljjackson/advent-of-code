@@ -56,6 +56,6 @@ function solutionOne(string $input): int
     return array_reduce(explode(PHP_EOL, $input), function (int $carry, string $input) {
         $results = explode(' ', $input);
 
-        return determineGame($results[1], $results[0]);
+        return determineGame($results[1], $results[0]) + $carry;
     }, 0);
 }
