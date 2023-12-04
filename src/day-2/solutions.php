@@ -32,10 +32,8 @@ const WINNING_RESULTS = [
     PAPER => ROCK,
 ];
 
-function determineGame(string $player, string $opponent): int
+function determineWinner(string $player, string $opponent): int
 {
-    $player = PLAYER[$player];
-    $opponent = OPPONENT[$opponent];
     $defaultPoints = POINTS[$player];
 
     // Draw...
@@ -51,11 +49,56 @@ function determineGame(string $player, string $opponent): int
     return LOSS + $defaultPoints;
 }
 
+function determineWinnerSolutionOne(string $player, string $opponent): int
+{
+    $player = PLAYER[$player];
+    $opponent = OPPONENT[$opponent];
+    return determineWinner($player, $opponent);
+}
+
 function solutionOne(string $input): int
 {
     return array_reduce(explode(PHP_EOL, $input), function (int $carry, string $input) {
         $results = explode(' ', $input);
 
-        return determineGame($results[1], $results[0]) + $carry;
+        return determineWinnerSolutionOne($results[1], $results[0]) + $carry;
+    }, 0);
+}
+
+const WIN_INPUT = 'Z';
+const LOSE_INPUT = 'X';
+const DRAW_INPUT = 'Y';
+
+// If the opponent chooses rock, the win input would be paper.
+const OUTCOMES = [
+    ROCK => [
+        WIN_INPUT => PAPER,
+        LOSE_INPUT => SCISSORS
+    ],
+    PAPER => [
+        WIN_INPUT => SCISSORS,
+        LOSE_INPUT => ROCK
+    ],
+    SCISSORS => [
+        WIN_INPUT => ROCK,
+        LOSE_INPUT => PAPER
+    ],
+];
+
+
+function determineWinnerFromOutcome(string $outcome, string $opponent): int
+{
+    $opponent = OPPONENT[$opponent];
+    $player = $outcome === DRAW_INPUT ? $opponent : OUTCOMES[$opponent][$outcome];
+
+    return determineWinner($player, $opponent);
+}
+
+function solutionTwo(string $input): int
+{
+    return array_reduce(explode(PHP_EOL, $input), function (int $carry, string $input) {
+        $results = explode(' ', $input);
+
+        return determineWinnerFromOutcome($results[1], $results[0]) + $carry;
     }, 0);
 }
