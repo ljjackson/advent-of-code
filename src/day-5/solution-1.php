@@ -2,7 +2,6 @@
 
 $time_start = microtime(true);
 
-
 $input = explode(PHP_EOL . PHP_EOL, file_get_contents(__DIR__ . '/input.txt'));
 
 // Retrieve the Seeds
@@ -18,7 +17,6 @@ $maps = array_map(function (string $input) {
 
 // Get the lowest output
 $output = array_reduce($seeds, function ($lowest, $seed) use ($maps) {
-
     $output = array_reduce($maps, function ($previous, array $maps) {
         foreach ($maps as $map) {
             $indexStart = $map[1];
